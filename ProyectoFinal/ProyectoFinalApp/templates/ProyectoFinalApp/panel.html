@@ -1,0 +1,305 @@
+{% extends 'ProyectoFinalApp/header.html' %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block contenidoPagina %}
+<section style="height: 100vh">
+  <div class="container mt-5">
+    {% if messages %}
+    {% for message in messages %}
+          <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+    {% endfor %}
+  {% endif %}
+    <div class="row">
+      <div class="col mt-5">
+        <nav>
+          <div class="nav nav-tabs mb-5" id="nav-tab" role="tablist">
+            <a href="{% url 'panel' 'articulo' %}" class="nav-link {% if tab == 'articulo' %}active{% endif %}">Articulos</a>
+            <a href="{% url 'panel' 'usuario' %}" class="nav-link {% if tab == 'usuario' %}active{% endif %} ">Usuarios</a>
+          </div>
+        </nav>
+        {% if tab == 'articulo' %}
+        {% if prueba is none %}
+        <div class="col-6">
+          <a href="{% url 'crear_articulo' %}" class="btn btn-dark mb-3">Crear Nuevo Articulo</a>
+        </div>
+        <div class="card text-center ">
+          <div class="card-header">
+            Blog
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Lo sentimos!</h5>
+            <p class="card-text">Todavia no hay ninguna pagina del blog pero estamos trabajando en ello.</p>
+            <a href="{% url 'inicio' %}" class="btn btn-dark">Volver</a>
+          </div>
+        </div>
+        {%else%}
+        <div class="d-flex row justify-content-between">
+          <div class="col-6">
+            <a href="{% url 'crear_articulo' %}" class="btn btn-dark mb-3">Crear Nuevo Articulo</a>
+          </div>
+          <div class="col-6">
+            <form method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="input-group">
+                <div class="form-outline">
+                  <input type="search" id="buscar" name="buscar" class="form-control" placeholder="Buscar" />
+                </div>
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-search"></i>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <table class="table table-hover">
+          <thead class="table-primary">
+            <tr>
+              <th scope="col">Titulo</th>
+              <th scope="col">Autor</th>
+              <th scope="col">Fecha de Creacion</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          {% if buscador %}
+          {% for resultado in buscador %}
+          <tbody>
+            <tr>
+              <td>{{resultado.titulo}}</td>
+              <td>{{resultado.autor}}</td>
+              <td>{{resultado.fecha_creacion}}</td>
+              <td>
+                <a href="{% url 'detalle_articulo' resultado.id %}"><i style="color:blue"
+                    class="fa-solid fa-eye"></i></a>
+                <a href="{% url 'editar_articulo' resultado.id %}"><i style="color:green"
+                    class="fa-solid fa-pencil"></i></a>
+                <a href="{% url 'eliminar_articulo' resultado.id %}"><i style="color:red"
+                    class="fa-solid fa-trash-can"></i></a>
+              </td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            {% for articulo in articulos %}
+          <tbody>
+            <tr>
+              <td>{{articulo.titulo}}</td>
+              <td>{{articulo.autor}}</td>
+              <td>{{articulo.fecha_creacion}}</td>
+              <td>
+                <a href="{% url 'detalle_articulo' articulo.id %}"><i style="color:blue"
+                    class="fa-solid fa-eye"></i></a>
+                <a href="{% url 'editar_articulo' articulo.id %}"><i style="color:green"
+                    class="fa-solid fa-pencil"></i></a>
+                <a href="{% url 'eliminar_articulo' articulo.id %}"><i style="color:red"
+                    class="fa-solid fa-trash-can"></i></a>
+              </td>
+            </tr>
+            {% endfor %}
+            {% endif %}
+          </tbody>
+        </table>
+        <div>
+          {% include 'ProyectoFinalApp/paginator.html' %}
+        </div>
+        {% endif %}
+        {% else %}
+        {% if prueba is none %}
+        <div class="col-6">
+          <a href="{% url 'register' %}" class="btn btn-dark mb-3">Crear Nuevo Usuario</a>
+        </div>
+        <div class="card text-center ">
+          <div class="card-header">
+            Blog
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Lo sentimos!</h5>
+            <p class="card-text">Todavia no hay ninguna pagina del blog pero estamos trabajando en ello.</p>
+            <a href="{% url 'inicio' %}" class="btn btn-dark">Volver</a>
+          </div>
+        </div>
+        {%else%}
+        <div class="d-flex row justify-content-between">
+          <div class="col-6">
+            <a href="{% url 'register' %}" class="btn btn-dark mb-3">Crear Nuevo Usuario</a>
+          </div>
+          <div class="col-6">
+            <form method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="input-group">
+                <div class="form-outline">
+                  <input type="search" id="buscar" name="buscar" class="form-control" placeholder="Buscar" />
+                </div>
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-search"></i>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <table class="table table-hover">
+          <thead class="table-primary ">
+            <tr>
+              <th scope="col">Usuario</th>
+              <th scope="col">Email</th>
+              <th scope="col">Admin</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          {% if buscador %}
+          {% for resultado in buscador %}
+          <tbody>
+            <tr>
+              <td>{{resultado.username}}</td>
+              <td>{{resultado.email}}</td>
+              <td>{{resultado.is_staff}}</td>
+              <td>
+                {% if resultado.is_staff == True %}
+                <a href="{% url 'sacar_permiso' resultado.username %}"><i style="color:blue"
+                    class="fa-solid fa-angles-down"></i></a>
+                <a type="button" data-bs-toggle="modal" data-bs-target="#{{resultado.username}}"><i
+                      style="color: orange" class="fa-solid fa-key ms-1"></i></a>
+                {% else %}
+                <a href="{% url 'dar_permiso' resultado.username %}"><i style="color:blue"
+                    class="fa-solid fa-angles-up"></i></a>
+                {% endif %}
+                <a href="{% url 'eliminar_usuario_panel' resultado.username %}"><i style="color:red"
+                    class="fa-solid fa-trash-can ms-1"></i></a>
+              </td>
+            </tr>
+        <div class="modal fade" id="{{resultado.username}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Editar Perfil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form class="mx-5 my-5" method="POST">
+                  {% csrf_token %}
+                  <div class="row mb-2">
+                    <div class="col">
+                      <div class="form-outline">
+                        {{form.first_name|as_crispy_field}}
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="form-outline">
+                        {{form.last_name|as_crispy_field}}
+                      </div>
+                    </div>
+                  </div>
+    
+                  <div class="form-outline mb-4">
+                    {{form.email|as_crispy_field}}
+                  </div>
+                  <div class="form-outline mb-4">
+                    {{form.password1|as_crispy_field}}
+                  </div>
+                  <div class="form-outline mb-4">
+                    {{form.password2|as_crispy_field}}
+                  </div>
+                  <div class="form-outline mb-4">
+                    <input type="hidden" id="form4Example1" class="form-control" name="id" value="{{resultado.id}}" />
+                  </div>
+                  <div class="row justify-content-center">
+                    <input type="submit" class="btn btn-outline-dark" style="width: 80%;" name="enviar" value="Editar">
+                  </div> 
+              
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+            {% endfor %}
+            {% else %}
+            {% for usuario in usuarios %}
+          <tbody>
+            <tr>
+              <td>{{usuario.username}}</td>
+              <td>{{usuario.email}}</td>
+              <td>{{usuario.is_staff}}</td>
+              <td>
+                {% if usuario.is_staff == True %}
+                <a href="{% url 'sacar_permiso' usuario.username %}"><i style="color:blue"
+                    class="fa-solid fa-angles-down"></i></a>
+                <a type="button" data-bs-toggle="modal" data-bs-target="#{{usuario.username}}"><i
+                    style="color: orange" class="fa-solid fa-key ms-1"></i></a>
+                {% else %}
+                <a href="{% url 'dar_permiso' usuario.username %}"><i style="color:blue"
+                    class="fa-solid fa-angles-up"></i></a>
+                {% endif %}
+                <a href="{% url 'eliminar_usuario_panel' usuario.username %}"><i style="color:red"
+                    class="fa-solid fa-trash-can ms-1"></i></a>
+              </td>
+            </tr>
+        <div class="modal fade" id="{{usuario.username}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Editar Perfil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form class="mx-5 my-5" method="POST">
+                  {% csrf_token %}
+                  <div class="row mb-2">
+                    <div class="col">
+                      <div class="form-outline">
+                        {{form.first_name|as_crispy_field}}
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="form-outline">
+                        {{form.last_name|as_crispy_field}}
+                      </div>
+                    </div>
+                  </div>
+    
+                  <div class="form-outline mb-4">
+                    {{form.email|as_crispy_field}}
+                  </div>
+                  <div class="form-outline mb-4">
+                    {{form.password1|as_crispy_field}}
+                  </div>
+                  <div class="form-outline mb-4">
+                    {{form.password2|as_crispy_field}}
+                  </div>
+                  <div class="form-outline mb-4">
+                    <input type="hidden" id="form4Example" class="form-control" name="id" value="{{usuario.id}}" />
+                  </div>
+                  <div class="row justify-content-center">
+                    <input type="submit" class="btn btn-outline-dark" style="width: 80%;" name="enviar" value="Editar">
+                  </div> 
+              
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+            {% endfor %}
+            {% endif %}
+          </tbody>
+        </table>
+        <div>
+          {% include 'ProyectoFinalApp/paginator_user.html' %}
+        </div>
+            {% endif %}
+            {% endif %}
+      </div>
+    </div>
+  </div>
+  
+</section>
+
+{% endblock %}

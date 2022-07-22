@@ -1,0 +1,18 @@
+{% extends 'ProyectoFinalApp/header.html' %}
+
+{% load static %}
+
+
+
+{% block contenidoPagina %}
+
+                        
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+                        
+        {{form.as_p}}
+                        
+        <input type="submit" class="btn btn-primary" value="guardar">
+    </form>
+       
+{% endblock %}

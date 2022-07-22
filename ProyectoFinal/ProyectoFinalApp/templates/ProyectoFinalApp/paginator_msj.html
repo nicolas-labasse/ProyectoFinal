@@ -1,0 +1,47 @@
+
+{% if paginator.num_pages > 1%}
+<div class="d-flex justify-content-center">
+    <ul class="pagination">
+        {% if contenido.has_previous %}
+            <li class="page-item d-none d-sm-block"><a class="page-link" href="?page={{ contenido.previous_page_number }}#pagtable">Anterior</a></li>
+        {% endif %}
+        {% for page in paginator.page_range %}
+            {% if forloop.last and page != contenido.number and paginator.num_pages > 7 %} 
+                {% if contenido.next_page_number != paginator.num_pages%}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ contenido.number | add:1}}#pagtable">...</a>
+                </li>
+                {% endif %}
+            <li class="page-item">
+                    <a class="page-link" href="?page={{paginator.num_pages}}#pagtable">{{paginator.num_pages}}</a>
+            </li>
+            {% endif %}
+            {% if page == contenido.number and page > 7 %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page | add:-1 }}#pagtable">...</a>
+            </li>    
+            {% endif %}
+            {% if page < 7 or page == contenido.number %}
+            <li class="page-item {% if page == contenido.number %}active{% endif %}">
+                <a class="page-link" href="?page={{ page }}#pagtable">{{ page }}</a>
+            </li>
+            {% endif %}
+        {% endfor %}
+        {% if contenido.has_next %}
+            <li class="page-item d-none d-sm-block">
+                <a class="page-link" href="?page={{ contenido.next_page_number }}#pagtable">Siguiente</a>
+            </li>
+        {% endif %}
+    </ul>
+</div>
+<div class="d-flex justify-content-center d-sm-none">            
+    {% if contenido.has_previous %}
+        <span class="page-item"><a  class="page-link" href="?page={{ contenido.previous_page_number }}#pagtable">Anterior</a></span>
+    {% endif %}
+    {% if contenido.has_next %}
+        <span class="page-item"><a class="page-link" href="?page={{ contenido.next_page_number }}#pagtable">Siguiente</a></span>
+    {% endif %}
+    <br>
+    <br>
+</div>
+{% endif %}

@@ -1,0 +1,90 @@
+{% extends 'ProyectoFinalApp/header.html' %}
+
+{% load static %}
+
+
+{% block contenidoPagina %}
+
+
+<section class="mb-5">
+  <div class="container mt-5">
+    <h1 class="text-center mb-5">Blog</h1>
+    <div class="d-flex row justify-content-between">
+      
+      <div class="col-md-6 col-12 mb-4">
+          <form method="GET" enctype="multipart/form-data">
+              
+              <div class="input-group">
+                  <div class="form-outline">
+                      <input type="search" id="buscar" name="buscar" class="form-control"
+                          placeholder="Buscar" />
+                  </div>
+                  <button type="submit" class="btn btn-primary">
+                      <i class="fas fa-search"></i>
+                  </button>
+              </div>
+          </form>
+      </div>
+  </div>
+  {% if prueba %}
+  <div class="card text-center">
+    <div class="card-header">
+      Blog
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">Lo sentimos!</h5>
+      <p class="card-text">Todavia no hay ninguna pagina del blog pero estamos trabajando en ello.</p>
+      <a href="{% url 'inicio' %}" class="btn btn-dark">Volver</a>
+    </div>
+  </div>
+  {%else%}
+    {% if buscador %}
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      {% for resultado in buscador %}
+      <a href="{% url 'detalle_articulo' resultado.id %}">
+        <div class="col h-100">
+          <div class="card h-100 sombrear">
+            <img src="{{resultado.imagen.url}}" class="card-img-top" alt="" />
+            <div class="card-body">
+              <h5 class="card-title">{{resultado.titulo}}</h5>
+              <p class="card-text" style="height: 48px;">
+                {{resultado.contenido}}
+              </p>
+              <p class="card-text mt-5"><small class="text-muted">{{resultado.fecha_creacion}}</small></p>
+            </div>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+    <div class="m-5">
+      {% include 'ProyectoFinalApp/paginator_busqueda.html' %}
+    </div>
+      {%else%}
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for articulo in articulos %}
+        <a href="{% url 'detalle_articulo' articulo.id %}">
+          <div class="col h-100">
+            <div class="card h-100 sombrear">
+              <img src=" {{articulo.imagen.url}} " class="card-img-top" alt="Hollywood Sign on The Hill" />
+              <div class="card-body">
+                <h5 class="card-title">{{articulo.titulo}}</h5>
+                <p class="card-text" style="height: 48px;">
+                  {{articulo.contenido}}
+                </p>
+                <p class="card-text mt-5"><small class="text-muted">{{articulo.fecha_creacion}}</small></p>
+              </div>
+            </div>
+          </div>
+        </a>
+        {% endfor %} 
+      </div>
+      <div class="m-5">
+        {% include 'ProyectoFinalApp/paginator.html' %}
+      </div>
+      {% endif %}
+      {% endif %}
+    </div>
+</section>
+
+{% endblock %}

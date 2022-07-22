@@ -1,0 +1,63 @@
+{% extends 'ProyectoFinalApp/header.html' %}
+
+{% load static %}
+
+
+{% block contenidoPagina %}
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+              {% if messages %}
+                {% for message in messages %}
+                      <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+                          {{ message }}
+                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>
+                {% endfor %}
+              {% endif %}
+                <div class="card bg-dark text-white mt-5">
+                    <img src="{{url}}" class="card-img" alt="...">
+                    <div class="card-img-overlay">
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section style="height: 100vh">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="row row-cols-1 row-cols-md-2 g-4 mt-5 mb-5">
+                    <div class="col">
+                      <div class="card h-100">
+                        <img src="{{url_nosotros}}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                          <h5 class="card-title">Sobre Nosotros</h5>
+                          <p class="card-text" style="height: 48px;">Conoce un poco sobre nosotros y nuestro Proyecto Final.</p>
+                          <div class="card-footer bg-dark">
+                            <a href="{% url 'nosotros' %}" class="btn btn-outline-light" style="width: 100%;">Mas informacion</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="card h-100">
+                        <img src="{{url_blog}}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                          <h5 class="card-title">Blog</h5>
+                          <p class="card-text">Ingresa a nuestra seccion de blogs y conoce todas nuestras aventuras para poder crear nuestro primer proyecto.</p>
+                          <div class="card-footer bg-dark">
+                            <a href="{%url 'pages'%}" class="btn btn-outline-light" style="width: 100%;">Mas informacion</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

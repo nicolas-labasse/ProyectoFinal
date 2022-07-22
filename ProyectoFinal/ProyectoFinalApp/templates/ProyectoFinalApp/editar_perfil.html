@@ -1,0 +1,120 @@
+{% extends 'ProyectoFinalApp/header.html' %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block contenidoPagina %}
+
+  <section class="fondo">
+    <div class="container">
+        <div class="row d-flex align-items-center justify-content-center">
+            <div class="col-9 pb-5 pt-5">
+              <div class="card shadow-lg fondoCard">
+                <div class="card-body pe-3">
+                  <h1 class="text-center mt-3">Datos Personales</h1>
+                  <div class="d-flex align-items-start justify-content-around">
+                    <div class="nav flex-column nav-pills mx-5 my-5" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                      <a href="{% url 'editar_perfil' 'personal' %}" class="nav-link">Datos Personales</a>
+                      <a href="{% url 'editar_perfil' 'avatar' %}" class="nav-link">Avatar</a>
+                      <a href="{% url 'editar_perfil' 'link' %}" class="nav-link ">Redes</a>
+                      <a href="{% url 'eliminar_usuario' user.id  %}" class="nav-link">Eliminar Usuario</a>
+                    </div>
+                      {% if tabs == 'personal' %}
+                      <div class="card my-5 shadow-lg">
+                        <div class="card-body">
+                          <h1 class="h3 text-center mt-5 ">Edita tus datos personales</h1>
+                          <form class="mx-5 my-5" method="POST">
+                            {% csrf_token %}
+                            <div class="row mb-2">
+                              <div class="col">
+                                <div class="form-outline">
+                                  {{form.first_name|as_crispy_field}}
+                                </div>
+                              </div>
+                              <div class="col">
+                                <div class="form-outline">
+                                  {{form.last_name|as_crispy_field}}
+                                </div>
+                              </div>
+                            </div>
+              
+                            <div class="form-outline mb-4">
+                              {{form.email|as_crispy_field}}
+                            </div>
+                            <div class="form-outline mb-4">
+                              {{form.password1|as_crispy_field}}
+                            </div>
+                            <div class="form-outline mb-4">
+                              {{form.password2|as_crispy_field}}
+                            </div>
+                            <div class="row justify-content-center">
+                              <input type="submit" class="btn btn-outline-dark" style="width: 80%;" value="Editar">
+                            </div> 
+                        
+                          </form>
+                        </div>
+                      </div>
+                      {% elif tabs == 'avatar' %}
+                      <div class="card my-5 shadow-lg" style="width: 600px;">
+                        <div class="card-body">
+                          <h1 class="h3 text-center mt-5">Edita tu Avatar</h1>
+                          <form class="my-5" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row mb-4 justify-content-center">
+                              <div class="col text-center">
+                                
+                              <img src="{{ user.avatar.imagen.url }}"  class="img-fluid rounded-circle" style="max-height: 200px;" alt=""/>
+                              {{ form|crispy }}
+                            </div>
+                            {% if user.avatar.imagen == '' %}
+                            <div class="row justify-content-center">
+                              <input type="submit" class="btn btn-outline-dark" style="width: 80%;" value="Subir">
+                            </div>
+                            {% else %}
+                            <div class="row justify-content-center">
+                              <input type="submit" class="btn btn-outline-dark" style="width: 80%;" value="Editar">
+                            </div>
+                            {% endif %}
+                          </form>
+                        </div>
+                      </div>
+                      {% else %}
+                      <div class="card my-5 shadow-lg">
+                        <div class="card-body">
+                          <h1 class="h3 text-center mt-5 ">Edita tus Links</h1>
+                          <form class="mx-5 my-5" method="POST">
+                            {% csrf_token %}
+                            <div class="row mb-4">
+                              <div class="d-flex">
+                              <div class="col-12">
+                                <label class="form-label" for="form2Example2">Linkedin<i  style="color:blue" class="fa-brands fa-linkedin ms-2"></i></label>
+                                {{form_link.link1|as_crispy_field}}
+                              </div> 
+                            </div>
+                              <div class="d-flex">
+                                <div class="col-12">
+                                  <label class="form-label" for="form2Example2">Github<i style="color:black" class="fa-brands fa-github ms-2"></i></label>
+                                  {{form_link.link2|as_crispy_field}}
+                                </div>
+                              </div>
+                            </div>  
+                             
+                            <div class="row justify-content-center">
+                              <input type="submit" class="btn btn-outline-dark" style="width: 80%;" value="Editar">
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                      {% endif %} 
+                  </div>
+                </div>
+              </div> 
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+{% endblock %}

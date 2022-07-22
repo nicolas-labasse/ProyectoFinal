@@ -1,0 +1,46 @@
+a {
+  text-decoration: none!important;
+  color: black;
+}
+
+h1 {
+  font-family: 'Share Tech Mono', monospace!important;
+}
+a:hover {
+  text-decoration: none!important;
+  color: black;
+}
+
+.sombrear:hover {
+  box-shadow: 0px 0px 15px 2px #757575;
+  transition: all 0.1s ease-in-out;
+}
+
+.iconoazul{
+  color: blue!important;
+}
+
+.iconoazul:hover{
+  color: #00bcd4;
+}
+.test{
+  border:6px solid red;
+}
+.fondomensaje{
+  background-color:#f9fafb!important;
+  border-radius: 10px; 
+}
+
+.fondoCard{
+  background-color: #f8f9fa!important;
+  border-radius: 10px; 
+}
+
+.fondo {
+  background-image: url(/media/imagenes/fondo.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+
