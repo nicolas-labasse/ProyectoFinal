@@ -23,8 +23,7 @@ urlpatterns = [
     path('eliminar_usuario_panel/<usuario_id>', eliminar_usuario_panel, name="eliminar_usuario_panel"),
     path('dar_permiso/<usuario_id>', dar_permiso, name="dar_permiso"),
     path('sacar_permiso/<usuario_id>', sacar_permiso, name="sacar_permiso"),
-    path('test/<mensaje_id>', test, name="test"),
-    
+   
     
 
     
