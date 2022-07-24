@@ -177,12 +177,9 @@ def eliminar_usuario(request, user_id):
     return redirect("inicio")
 
 def detalle_articulo(request,articuloID):
-    try:
         articulos = articulo.objects.get(id=articuloID)
-        return render(request, 'ProyectoFinalApp/detalle_articulo.html', {'articulos': articulos, 'url':url})
-    except:
-        url = "/media/imagenes/3.jpg"
-        return render(request, 'ProyectoFinalApp/detalle_articulo.html', {'articulos': articulos, 'url':url})
+        return render(request, 'ProyectoFinalApp/detalle_articulo.html', {'articulos': articulos})
+ 
 
 @staff_member_required
 def eliminar_articulo(request, articulo_id):
@@ -273,6 +270,7 @@ def panel(request,tab):
             if request.method == "POST":
                 if 'enviar' in request.POST:  
                  form = UserEditForm(request.POST)
+                 tabs= 'usuario'
                  if form.is_valid():
                     info = form.cleaned_data
                     usuario_id = request.POST["id"]
