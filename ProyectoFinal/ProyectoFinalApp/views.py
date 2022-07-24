@@ -329,8 +329,11 @@ def mensajes(request,mensaje_id):
                 paginator = Paginator(buscador, 5)
                 buscador = paginator.page(page)
                 if mensaje_id == "1":
-                    mensajes = Mensaje.objects.filter(usuario_receptor = request.user)[:1].get()
-                    return render(request, 'ProyectoFinalApp/messages.html', {'form': form,'buscador':buscador,'paginator':paginator,'mensaje_id':mensaje_id,'buscar':buscar,'mensajes':mensajes})
+                    try:
+                     mensajes = Mensaje.objects.filter(usuario_receptor = request.user)[:1].get()
+                     return render(request, 'ProyectoFinalApp/messages.html', {'form': form,'buscador':buscador,'paginator':paginator,'mensaje_id':mensaje_id,'buscar':buscar})
+                    except Mensaje.DoesNotExist:
+                     return render(request, 'ProyectoFinalApp/messages.html', {'form': form,'buscador':buscador,'paginator':paginator,'mensaje_id':mensaje_id,'buscar':buscar,'mensajes':mensajes})
                 else:
                     mensajes = Mensaje.objects.get(usuario_receptor = request.user,id=mensaje_id)
                     return render(request, 'ProyectoFinalApp/messages.html', {'form': form,'buscador':buscador,'paginator':paginator,'mensaje_id':mensaje_id,'buscar':buscar,'mensajes':mensajes})
@@ -339,8 +342,11 @@ def mensajes(request,mensaje_id):
             paginator = Paginator(contenido, 5)
             contenido = paginator.page(page)
             if mensaje_id == "1":
-                mensajes = Mensaje.objects.filter(usuario_receptor = request.user)[:1].get()
-                return render(request, 'ProyectoFinalApp/messages.html', {'form': form,'contenido':contenido,'paginator':paginator,'mensaje_id':mensaje_id,'mensajes':mensajes})
+                  try:
+                     mensajes = Mensaje.objects.filter(usuario_receptor = request.user)[:1].get()
+                     return render(request, 'ProyectoFinalApp/messages.html', {'form': form,'contenido':contenido,'paginator':paginator,'mensaje_id':mensaje_id,'mensajes':mensajes})
+                  except Mensaje.DoesNotExist:
+                    return render(request, 'ProyectoFinalApp/messages.html', {'form': form,'paginator':paginator,'mensaje_id':mensaje_id,'contenido':contenido})   
             else:
                 mensajes = Mensaje.objects.get(usuario_receptor = request.user,id=mensaje_id)
                 return render(request, 'ProyectoFinalApp/messages.html', {'form': form,'contenido':contenido,'paginator':paginator,'mensaje_id':mensaje_id,'mensajes':mensajes})
